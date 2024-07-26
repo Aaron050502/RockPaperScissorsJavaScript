@@ -1,4 +1,33 @@
+const rockButton = document.querySelector("#rockButton");
+const paperButton = document.querySelector("#paperButton");
+const scissors = document.querySelector("#scissorsButton")
+const buttons = document.querySelector("#buttons")
+const result = document.querySelector("#results")
+let humanScore = 0;
+let computerScore = 0;
+let roundResult = document.createElement("p");
+let currentScore = document.createElement("p");
+result.appendChild(roundResult);
+result.appendChild(currentScore);
 
+buttons.addEventListener("click", (event) => {
+    let target = event.target;
+
+    switch(target.id) {
+
+        case "rockButton":
+            playRound("rock", getComputerChoice());
+            break;
+        
+        case "paperButton":
+            playRound("paper", getComputerChoice())    
+            break;
+        
+        case "scissorsButton":
+            playRound("scissors", getComputerChoice())
+            break;
+    }
+});
 
 
 function getComputerChoice() {
@@ -33,10 +62,7 @@ function getHumanChoice() {
 }
 
 
-function playGame() {
-    
-    let humanScore = 0;
-    let computerScore = 0;
+
     
     function playRound(humanChoice, computerChoice) {
     
@@ -83,26 +109,25 @@ function playGame() {
             log = `You lose! ${computerChoice} beats ${humanChoice}`
             computerScore++;
         }
-    
-        console.log(log);
-        console.log(`Current Score: You:${humanScore} Computer:${computerScore}`);
+        
+        
+        roundResult.textContent = log;
+        let currentScoreText = "";
+        if(humanScore != 5 && computerScore != 5) {
+            currentScoreText = `Current Score: You:${humanScore} Computer:${computerScore}`;
+        } else if (humanScore === 5) {
+            
+            currentScoreText = "You won the game, congratulations! Resetting scores...";
+            humanScore = 0;
+            computerScore = 0;
+        } else {
+           
+            currentScoreText = "You lost the game better luck next time! Resetting scores...";
+            humanScore = 0;
+            computerScore = 0;
+        }
+        
+        currentScore.textContent = currentScoreText;
     }
 
 
-
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-
-    if(humanScore > computerScore) {
-        console.log(`You win ${humanScore}:${computerScore}`);
-    } else if (humanScore < computerScore) {
-        console.log(`You lose! ${humanScore}:${computerScore}`);
-    } else {
-        console.log(`You drew! FinalScore: ${humanScore}: ${computerScore}`);
-    }
-}
-
-playGame();
